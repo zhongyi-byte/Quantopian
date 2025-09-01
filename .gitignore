@@ -1,8 +1,14 @@
-# Python
+# Python虚拟环境
+venv/
+env/
+ENV/
+
+# Python缓存文件
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
+
+# 分发/打包
 .Python
 build/
 develop-eggs/
@@ -22,32 +28,31 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Virtual Environment
-venv/
-env/
-ENV/
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# 环境变量
+.env
+.venv
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
 
 # IDE
-.idea/
 .vscode/
+.idea/
 *.swp
 *.swo
 *~
 
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# 日志文件
+*.log
 
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# Data files
-*.csv
-*.xlsx
-*.json
-data/
+# 临时文件
+*.tmp
+*.temp
