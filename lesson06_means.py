@@ -101,6 +101,13 @@ def analyze_financial_data():
     returns_rounded = returns.round(4)
     returns_mode = mode(returns_rounded.tolist())
     print(f"收益率众数 (四舍五入到4位): {returns_mode}")
+    
+    # 处理调和平均数（收益率可能为负，需要特殊处理）
+    if (returns > 0).all():
+        harmonic_mean_return = stats.hmean(returns)
+        print(f"收益率调和平均数: {harmonic_mean_return:.6f}")
+    else:
+        print("收益率调和平均数: 无法计算（存在负值或零值）")
     print()
     
     # 几何平均收益率计算
