@@ -54,7 +54,7 @@ def analyze_stock_range(symbol='AAPL', start='2022-01-01', end='2023-01-01'):
         print(f"股价极差: ${price_range:.2f}")
         print(f"最高价: ${stock_data.max():.2f} (日期: {max_date})")
         print(f"最低价: ${stock_data.min():.2f} (日期: {min_date})")
-        print(f"相对波动幅度: {price_range/stock_data.mean():.2%}")
+        print(f"相对波动幅度: {float(price_range/stock_data.mean()):.2%}")
         
         return stock_data
         
@@ -113,9 +113,9 @@ def analyze_stock_volatility(symbol='TSLA', start='2022-01-01', end='2023-01-01'
         annual_vol = daily_vol * np.sqrt(252)  # 年化波动率
         
         print(f"日收益率标准差: {daily_vol:.4f}")
-        print(f"年化波动率: {annual_vol:.2%}")
-        print(f"最大单日收益: {returns.max():.2%}")
-        print(f"最大单日亏损: {returns.min():.2%}")
+        print(f"年化波动率: {float(annual_vol):.2%}")
+        print(f"最大单日收益: {float(returns.max()):.2%}")
+        print(f"最大单日亏损: {float(returns.min()):.2%}")
         print()
         
         # 可视化收益率分布
@@ -218,7 +218,7 @@ def analyze_downside_risk(symbol='BTC-USD', start='2021-01-01', end='2023-01-01'
             
             print(f"平均收益率: {mean_return:.4f}")
             print(f"下行标准差: {downside_deviation:.4f}")
-            print(f"年化下行波动率: {downside_volatility:.2%}")
+            print(f"年化下行波动率: {float(downside_volatility):.2%}")
             print(f"下行风险天数: {len(downside_returns)}/{len(returns)}")
         
         # 计算不同目标收益率的半方差
@@ -260,26 +260,26 @@ def comprehensive_risk_analysis(symbol='SPY'):
         risk_metrics = {}
         
         # 基础统计量
-        risk_metrics['年化收益率'] = returns.mean() * 252
-        risk_metrics['年化波动率'] = returns.std() * np.sqrt(252)
+        risk_metrics['年化收益率'] = float(returns.mean() * 252)
+        risk_metrics['年化波动率'] = float(returns.std() * np.sqrt(252))
         risk_metrics['夏普比率'] = risk_metrics['年化收益率'] / risk_metrics['年化波动率']
         
         # 极端风险
-        risk_metrics['最大单日跌幅'] = returns.min()
-        risk_metrics['VaR_5%'] = np.percentile(returns, 5)
-        risk_metrics['CVaR_5%'] = returns[returns <= risk_metrics['VaR_5%']].mean()
+        risk_metrics['最大单日跌幅'] = float(returns.min())
+        risk_metrics['VaR_5%'] = float(np.percentile(returns, 5))
+        risk_metrics['CVaR_5%'] = float(returns[returns <= risk_metrics['VaR_5%']].mean())
         
         # 下行风险
         downside_returns = returns[returns < 0]
         if len(downside_returns) > 0:
-            risk_metrics['下行标准差'] = np.sqrt(np.mean(downside_returns**2)) * np.sqrt(252)
+            risk_metrics['下行标准差'] = float(np.sqrt(np.mean(downside_returns**2)) * np.sqrt(252))
             risk_metrics['索蒂诺比率'] = risk_metrics['年化收益率'] / risk_metrics['下行标准差']
         
         # 最大回撤
         cumulative = (1 + returns).cumprod()
         rolling_max = cumulative.expanding().max()
         drawdowns = (cumulative - rolling_max) / rolling_max
-        risk_metrics['最大回撤'] = drawdowns.min()
+        risk_metrics['最大回撤'] = float(drawdowns.min())
         
         # 输出结果
         print(f"{symbol} 风险指标汇总:")
@@ -371,10 +371,10 @@ def plot_risk_comparison():
             returns = data.pct_change().dropna()
             
             # 计算风险指标
-            annual_return = returns.mean() * 252
-            annual_vol = returns.std() * np.sqrt(252)
+            annual_return = float(returns.mean() * 252)
+            annual_vol = float(returns.std() * np.sqrt(252))
             sharpe_ratio = annual_return / annual_vol if not np.isnan(annual_vol) and annual_vol > 0 else 0
-            max_drawdown = ((data / data.expanding().max()) - 1).min()
+            max_drawdown = float(((data / data.expanding().max()) - 1).min())
             
             risk_comparison[name] = {
                 '年化收益率': annual_return,
